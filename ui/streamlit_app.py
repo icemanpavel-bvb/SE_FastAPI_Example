@@ -3,7 +3,7 @@ import requests
 from PIL import Image
 import io
 
-# Заголовок по инструкции 
+ 
 st.title("Streamlit интерфейс для DeepFace")
 
 # Функционал загрузки изображений 
