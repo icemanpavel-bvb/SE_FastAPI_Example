@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import Config
 from app.endpoints import analyze
+from app.endpoints import history
+from app.database import engine, Base
 import logging
 
 # Настройка логирования
@@ -12,6 +14,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title=Config.APP_NAME, debug=Config.DEBUG)
+
+# Создаем таблицы в базе данных
+Base.metadata.create_all(bind=engine)
 
 # CORS для Streamlit
 app.add_middleware(
@@ -24,6 +29,7 @@ app.add_middleware(
 
 # Подключаем роутеры
 app.include_router(analyze.router)
+app.include_router(history.router)
 
 @app.get("/")
 async def root():
